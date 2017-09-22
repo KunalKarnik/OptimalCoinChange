@@ -18,7 +18,18 @@ public class OptimalCoinChangeProblem {
 	private int amount;
 
 	public static void main(String[] args) throws IOException {
-			run();
+		
+		while(true)	{
+			try {
+				run();
+			}	catch(Exception e)	{
+				System.out.println("I guess you did this!\n" + e.toString());
+				System.out.println("\n\tThats all right; try again!\n\n");
+				continue;
+			}
+			break;
+		}
+		System.out.println("That's all Folks!");	
 	}
 
 	static void run()	{
