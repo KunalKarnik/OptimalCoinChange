@@ -18,78 +18,63 @@ public class OptimalCoinChangeProblem {
 	private int amount;
 
 	public static void main(String[] args) throws IOException {
-		
-		while(true)	{
+		OptimalCoinChangeProblem ob = new OptimalCoinChangeProblem(true);
+		while (true) {
 			try {
-				run();
-			}	catch(Exception e)	{
+				ob.getCurrencySystem();
+			} catch (Exception e) {
 				System.out.println("I guess you did this!\n" + e.toString());
-				System.out.println("\n\tThats all right; try again!\n\n");
+				System.out.println("\n\tBut thats all right; try again!\n\n");
 				continue;
 			}
 			break;
 		}
-		System.out.println("That's all Folks!");	
+		ob.run();
+		System.out.println("That's all Folks!");
 	}
 
-	static void run()	{
-		
-		OptimalCoinChangeProblem ob = new OptimalCoinChangeProblem();
-		
-		ob.getCurrencySystem();
-		
-		if(ob.OptimalbreakDown())	{
-			ob.displayOptput();
-		}	else		{
-			System.out.println(ob.amount + " cannot be converted to change using only " + Arrays.toString(ob.coins) + "coins!");
+	void run() {
+		if (OptimalbreakDown()) {
+			displayOptput();
+		} else {
+			System.out.println(
+					amount + " cannot be converted to change using only " + Arrays.toString(coins) + " coins!");
 		}
 	}
-	
-	
-	private void getCurrencySystem()	{
-		
+
+	private void getCurrencySystem() {
 		Scanner in = new Scanner(System.in);
-		
 		System.out.print("Please enter the number of types of coins you have --> ");
 		n = in.nextInt();
-
 		coins = new int[n];
 		System.out.println("Please enter an the denominations ");
 		for (int i = 0; i < n; i++)
 			coins[i] = in.nextInt();
-
 		System.out.println("Please enter an amount to find its Optimal change in " + Arrays.toString(coins) + ": ");
 		amount = in.nextInt();
-		
 		in.close();
 	}
-	
-	
+
 	private void displayOptput() {
-
-		System.out.print(amount + " can be conver to change with a minimum of " 
-		+ no[amount] + " coins.\n" + amount + " --> ");
-
+		System.out.print(
+				amount + " can be conver to change with a minimum of " + no[amount] + " coins.\n" + amount + " --> ");
 		int temp = amount;
 		while ((temp - coins[used[temp]]) > 0) {
 			System.out.print(coins[used[temp]] + ", ");
 			temp -= coins[used[temp]];
 		}
-		System.out.println(coins[used[temp]]+ ".");
+		System.out.println(coins[used[temp]] + ".");
 	}
-	
 
 	private boolean OptimalbreakDown() {
 		int l = coins.length;
 		used = new int[amount + 1];
 		no = new int[amount + 1];
-
 		for (int i = 0; i <= amount; i++) {
 			used[i] = -1;
 			no[i] = Integer.MAX_VALUE - 2;
 		}
 		no[0] = 0;
-
 		for (int i = 0; i < l; i++) {
 			for (int j = 1; j <= amount; j++) {
 				if (j - coins[i] >= 0) {
@@ -100,8 +85,27 @@ public class OptimalCoinChangeProblem {
 				}
 			}
 		}
-		if (used[amount] == -1) {return false;}
+		if (used[amount] == -1) {
+			return false;
+		}
 		return true;
 	}
+
+	OptimalCoinChangeProblem(boolean isTest) {
+		if (!isTest) {
+			coins = new int[] { 7, 2, 3, 6 };
+			n = 4;
+			amount = 13;
+			used = new int[amount + 1];
+			no = new int[amount + 1];
+			for (int i = 0; i <= amount; i++) {
+				used[i] = -1;
+				no[i] = Integer.MAX_VALUE - 2;
+			}
+		}
+	}
 	
+	int getMinNumberOfCoins() {
+		return used[amount];
+	}
 }
